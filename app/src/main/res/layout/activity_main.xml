@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editPhone"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="no"
+        android:hint="@string/hintEditPhone"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@id/editSMS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editSMS"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="no"
+        android:hint="@string/editTextSMS"
+        android:inputType="text"
+        app:layout_constraintBottom_toTopOf="@id/btnCall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editPhone" />
+
+    <Button
+        android:id="@+id/btnCall"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btnCall"
+        app:layout_constraintBottom_toTopOf="@id/btnSendSMS"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editSMS" />
+
+    <Button
+        android:id="@+id/btnSendSMS"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/btnSMS"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnCall" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HWA 7.2.2 Intents</string>
+    <string name="hintEditPhone">Введите номер телефона</string>
+    <string name="editTextSMS">Введите сообщение</string>
+    <string name="btnCall">Позвонить</string>
+    <string name="btnSMS">Отправить сообщение</string>
+</resources>
