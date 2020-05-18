@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("IntentReset")
             @Override
             public void onClick(View v) {
+
+
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
 
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
@@ -63,23 +66,26 @@ public class MainActivity extends AppCompatActivity {
                     SmsManager smgr = SmsManager.getDefault();
                     smgr.sendTextMessage(number, null, sms, null, null);
 
-
-                    /**
-
-                     Подскажите почему когда пытаюсь использовать этот код, не высвечиваются, как при звонке
-                     варианты отправки сообщения другими приложениями???
-
-                     //                    Intent smsIntent = new Intent(Intent.ACTION_VIEW);
-                     //                    smsIntent.setData(Uri.parse("smsto:"));
-                     //                    smsIntent.setType("vnd.android-dir/mms-sms");
-                     //                    smsIntent.putExtra("address", number);
-                     //                    smsIntent.putExtra("sms_body", sms);
-                     //                    startActivity(Intent.createChooser(smsIntent, "Отправить смс с помощью"));
-                     **/
-
                 }
 
             }
         });
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CALL_PHONE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    finish();
+                }
+            case MY_PERMISSIONS_REQUEST_SEND_SMS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                } else {
+                    finish();
+                }
+        }
+    }
+
 }
