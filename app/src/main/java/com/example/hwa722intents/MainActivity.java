@@ -14,11 +14,14 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 11;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 22;
+    Button btnCall;
+    Button btnSendSMS;
 
 
     @Override
@@ -26,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnCall = findViewById(R.id.btnCall);
+        btnCall = findViewById(R.id.btnCall);
+        btnSendSMS = findViewById(R.id.btnSendSMS);
+
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -40,11 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
                     startActivity(dialIntent);
                 }
-
             }
         });
 
-        Button btnSendSMS = findViewById(R.id.btnSendSMS);
         btnSendSMS.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("IntentReset")
             @Override
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                     SmsManager smgr = SmsManager.getDefault();
                     smgr.sendTextMessage(number, null, sms, null, null);
 
+                    Toast.makeText(MainActivity.this, "Сообщение отправлено", Toast.LENGTH_LONG).show();
+
                 }
 
             }
@@ -77,15 +82,58 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_CALL_PHONE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    callByNumber();
                 } else {
                     finish();
                 }
             case MY_PERMISSIONS_REQUEST_SEND_SMS:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    sendSMSByNumber();
                 } else {
                     finish();
                 }
         }
+    }
+
+    private void callByNumber() {
+
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, MY_PERMISSIONS_REQUEST_CALL_PHONE);
+        } else {
+            EditText editTextNumberPhone = findViewById(R.id.editPhone);
+            String number = editTextNumberPhone.getText().toString();
+            Intent dialIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + number));
+
+            startActivity(dialIntent);
+        }
+
+
+    }
+
+    private void sendSMSByNumber() {
+
+
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
+        } else {
+
+            EditText editTextNumberPhone = findViewById(R.id.editPhone);
+            EditText editTextSMS = findViewById(R.id.editSMS);
+
+            String sms = editTextSMS.getText().toString().trim();
+            String number = editTextNumberPhone.getText().toString().trim();
+
+
+            SmsManager smgr = SmsManager.getDefault();
+            smgr.sendTextMessage(number, null, sms, null, null);
+
+            Toast.makeText(MainActivity.this, "Сообщение отправлено", Toast.LENGTH_LONG).show();
+
+        }
+
     }
 
 }
